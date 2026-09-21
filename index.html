@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CODEBREAKER — Joxia</title>
+  <meta name="description" content="Codebreaker : déchiffre le code secret de la machine. Jeu de réflexion type Mastermind, par JOXIA.">
+  <meta property="og:title" content="CODEBREAKER — Joxia">
+  <meta property="og:description" content="Déchiffre le code. Défie la machine. Un jeu JOXIA.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="Codebreaker.svg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <nav class="navbar">
+    <a href="https://joxiagame.github.io/Joxia-Games/" class="logo">JOXIA</a>
+    <span class="nav-sub">CODEBREAKER</span>
+    <button id="muteBtn" class="icon-btn" aria-label="Activer ou couper le son" aria-pressed="false">🔊</button>
+  </nav>
+
+  <main class="shell">
+    <header class="hero">
+      <h1><span class="accent">CODE</span>BREAKER</h1>
+      <p class="subtitle">Déchiffre le code. Défie la machine.</p>
+    </header>
+
+    <section id="setup" class="panel">
+      <h2>Configuration</h2>
+      <div class="presets" role="group" aria-label="Niveaux de difficulté">
+        <button class="preset active" data-len="4" data-col="6" data-try="10">Facile</button>
+        <button class="preset" data-len="5" data-col="7" data-try="9">Moyen</button>
+        <button class="preset" data-len="6" data-col="9" data-try="8">Expert</button>
+      </div>
+      <div class="config-row">
+        <label for="lenRange">Longueur <span id="lenVal">4</span></label>
+        <input id="lenRange" type="range" min="3" max="6" value="4" step="1">
+      </div>
+      <div class="config-row">
+        <label for="colRange">Couleurs <span id="colVal">6</span></label>
+        <input id="colRange" type="range" min="4" max="9" value="6" step="1">
+      </div>
+      <div class="config-row">
+        <label for="tryRange">Essais max <span id="tryVal">10</span></label>
+        <input id="tryRange" type="range" min="6" max="15" value="10" step="1">
+      </div>
+      <div class="btn-group">
+        <button id="startBtn" class="btn-primary">▶ DÉMARRER</button>
+        <button id="resetBtn" class="btn-secondary">↺ RÉINITIALISER</button>
+      </div>
+    </section>
+
+    <section id="gameArea" class="panel hidden">
+      <div class="stats-bar">
+        <span id="triesLeft" class="stat stat--accent">10 essais</span>
+        <span id="playerTag" class="stat stat--player"></span>
+        <span id="bestScore" class="stat">Meilleur : —</span>
+      </div>
+      <div id="triesDots" class="tries-dots" aria-label="Essais restants"></div>
+      <div id="history" class="history"></div>
+      <div class="current-row">
+        <div id="guessDisplay" class="guess-display"></div>
+        <div class="guess-actions">
+          <button id="undoBtn" class="icon-btn" aria-label="Effacer la dernière couleur">⌫</button>
+          <button id="submitBtn" class="btn-primary" disabled>VALIDER</button>
+        </div>
+      </div>
+      <div id="palette" class="palette"></div>
+      <p class="hint">Clavier : <kbd>1</kbd>–<kbd>9</kbd> choisir · <kbd>⌫</kbd> effacer · <kbd>Entrée</kbd> valider</p>
+    </section>
+  </main>
+
+  <div id="winOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+    <div class="overlay-card">
+      <h2 id="winTitle">🚀 ACCÈS AUTORISÉ</h2>
+      <p id="winText">Le code secret a été cracké.</p>
+      <div id="secretReveal" class="secret-reveal"></div>
+      <div class="overlay-actions">
+        <button id="shareBtn" class="btn-secondary">📋 Copier le résultat</button>
+        <button class="btn-primary" data-replay>REJOUER</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loseOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="loseTitle">
+    <div class="overlay-card">
+      <h2 id="loseTitle">⛔ VERROUILLÉ</h2>
+      <p>Tous tes essais sont épuisés. Le code secret était :</p>
+      <div id="secretRevealLose" class="secret-reveal"></div>
+      <div class="overlay-actions">
+        <button class="btn-primary" data-replay>REJOUER</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">© 2026 JOXIA — <a href="https://discord.gg/BNY6xprSen">Discord</a></footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
