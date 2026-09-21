@@ -22,9 +22,14 @@
   <div class="scanlines" aria-hidden="true"></div>
 
   <nav class="navbar">
+    <a href="https://joxiagame.github.io/Joxia-Games/" class="back-btn" title="Retour au hub JOXIA" aria-label="Retour au hub">←</a>
     <a href="https://joxiagame.github.io/Joxia-Games/" class="logo">JOXIA</a>
     <span class="nav-sub">CODEBREAKER</span>
-    <button id="muteBtn" class="icon-btn" aria-label="Activer ou couper le son" aria-pressed="false">🔊</button>
+    <div class="nav-right">
+      <span id="accountChip" class="account-chip guest">👤 <span id="accountName">Invité</span></span>
+      <button id="helpBtn" class="icon-btn" aria-label="Aide">?</button>
+      <button id="muteBtn" class="icon-btn" aria-label="Activer ou couper le son" aria-pressed="false">🔊</button>
+    </div>
   </nav>
 
   <main class="shell">
@@ -61,7 +66,6 @@
     <section id="gameArea" class="panel hidden">
       <div class="stats-bar">
         <span id="triesLeft" class="stat stat--accent">10 essais</span>
-        <span id="playerTag" class="stat stat--player"></span>
         <span id="bestScore" class="stat">Meilleur : —</span>
       </div>
       <div id="triesDots" class="tries-dots" aria-label="Essais restants"></div>
@@ -85,6 +89,7 @@
       <div id="secretReveal" class="secret-reveal"></div>
       <div class="overlay-actions">
         <button id="shareBtn" class="btn-secondary">📋 Copier le résultat</button>
+        <a href="https://joxiagame.github.io/Joxia-Games/" class="btn-secondary btn-link">⌂ HUB</a>
         <button class="btn-primary" data-replay>REJOUER</button>
       </div>
     </div>
@@ -96,7 +101,25 @@
       <p>Tous tes essais sont épuisés. Le code secret était :</p>
       <div id="secretRevealLose" class="secret-reveal"></div>
       <div class="overlay-actions">
+        <a href="https://joxiagame.github.io/Joxia-Games/" class="btn-secondary btn-link">⌂ HUB</a>
         <button class="btn-primary" data-replay>REJOUER</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="helpOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="overlay-card overlay-card--wide">
+      <h2 id="helpTitle">🔎 COMMENT JOUER</h2>
+      <ul class="help-list">
+        <li><b>🧩 But</b> : retrouve la séquence secrète de couleurs.</li>
+        <li><b>🟢 Vert</b> = bonne couleur, bien placée.</li>
+        <li><b>🟡 Jaune</b> = bonne couleur, mal placée.</li>
+        <li><b>👆 Joue</b> : tape une couleur puis <b>VALIDER</b> (<b>⌫</b> pour corriger).</li>
+        <li><b>⌨️ Clavier</b> : <kbd>1</kbd>–<kbd>9</kbd> choisir · <kbd>⌫</kbd> effacer · <kbd>Entrée</kbd> valider.</li>
+        <li><b>🏆 Score</b> : moins d'essais = plus de points.</li>
+      </ul>
+      <div class="overlay-actions">
+        <button class="btn-primary" data-close-help>J'AI COMPRIS</button>
       </div>
     </div>
   </div>

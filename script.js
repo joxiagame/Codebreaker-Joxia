@@ -33,7 +33,9 @@
   const triesLeftEl = $('triesLeft');
   const triesDotsEl = $('triesDots');
   const bestScoreEl = $('bestScore');
-  const playerTagEl = $('playerTag');
+  const accountChipEl = $('accountChip');
+  const accountNameEl = $('accountName');
+  const helpOver = $('helpOver');
   const lenRange = $('lenRange');
   const colRange = $('colRange');
   const tryRange = $('tryRange');
@@ -266,7 +268,7 @@
   }
 
   function computeScore() {
-    return triesLeft * 10 + codeLen * 5;
+    return triesLeft * 100 + codeLen * 25 + colorCount * 15;
   }
 
   function win() {
@@ -388,7 +390,7 @@
   // --- Clavier ---
   function bindKeyboard() {
     document.addEventListener('keydown', (e) => {
-      if (gameArea.classList.contains('hidden') || gameOver) return;
+      if (gameArea.classList.contains('hidden') || gameOver || !helpOver.classList.contains('hidden')) return;
       if (e.key >= '1' && e.key <= '9') {
         const idx = parseInt(e.key) - 1;
         if (idx < colorCount) addColor(idx);
@@ -414,11 +416,21 @@
     });
   }
 
+  // --- Aide / tuto ---
+  function bindHelp() {
+    const closeHelp = () => helpOver.classList.add('hidden');
+    $('helpBtn').addEventListener('click', () => helpOver.classList.remove('hidden'));
+    document.querySelector('[data-close-help]').addEventListener('click', closeHelp);
+    helpOver.addEventListener('click', (e) => { if (e.target === helpOver) closeHelp(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !helpOver.classList.contains('hidden')) closeHelp(); });
+  }
+
   // --- Joueur (intégration hub ?player=) ---
   function bindPlayer() {
     const urlParams = new URLSearchParams(window.location.search);
     player = (urlParams.get('player') || '').trim() || 'Invité';
-    playerTagEl.textContent = 'Joueur : ' + player;
+    accountNameEl.textContent = player;
+    accountChipEl.classList.toggle('guest', player === 'Invité');
   }
 
   // --- Init ---
@@ -429,6 +441,7 @@
     bindKeyboard();
     bindMute();
     bindPlayer();
+    bindHelp();
     $('startBtn').addEventListener('click', startGame);
     $('resetBtn').addEventListener('click', resetGame);
     submitBtn.addEventListener('click', submitGuess);

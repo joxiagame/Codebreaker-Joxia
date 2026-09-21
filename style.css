@@ -41,7 +41,7 @@ body {
 
 /* Navbar */
 .navbar {
-  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  display: flex; justify-content: flex-start; align-items: center; gap: 14px;
   padding: 14px 5%; position: sticky; top: 0; z-index: 100;
   background: rgba(8,13,20,.75); backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
@@ -237,4 +237,36 @@ kbd {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* --- UI JOXIA unifiée : retour hub, compte, aide --- */
+.back-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 12px;
+  background: rgba(255,255,255,.04); border: 1.5px solid var(--line);
+  color: var(--ink); font-size: 1.25rem; text-decoration: none; cursor: pointer;
+  transition: .18s; flex-shrink: 0;
+}
+.back-btn:hover { border-color: var(--neon); color: var(--neon); background: var(--neon-soft); }
+.nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.account-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-body); font-weight: 700; font-size: .85rem;
+  color: var(--neon); background: var(--neon-soft); border: 1px solid rgba(0,255,163,.25);
+  padding: 7px 13px; border-radius: 999px; letter-spacing: .3px; white-space: nowrap;
+}
+.account-chip #accountName { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account-chip.guest { color: var(--muted); background: rgba(255,255,255,.04); border-color: var(--line); }
+.btn-link { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.help-list { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 12px; margin: 0 0 24px; padding: 0; }
+.help-list li { color: #c2ccd8; font-size: .98rem; line-height: 1.5; }
+.help-list li b { color: var(--ink); }
+.help-list kbd { color: var(--amber); }
+.overlay-card--wide { max-width: 520px; }
+
+@media (max-width: 680px) {
+  .nav-sub { display: none; }
+  .account-chip { padding: 6px 10px; font-size: .78rem; }
+  .account-chip #accountName { max-width: 72px; }
+  .nav-right { gap: 7px; }
 }
