@@ -7,6 +7,7 @@ Jeu de réflexion et de décodage inspiré du Mastermind, intégré à l'écosys
 - Design néon « terminal » responsive (Orbitron, Rajdhani, Space Mono)
 - Web Audio API (sons synthétiques + bouton muet)
 - LocalStorage (meilleur score par configuration + préférence son)
+- Firebase Realtime Database (score envoyé au classement global du hub)
 
 ## Règles
 - Découvre une séquence secrète de 3 à 6 couleurs (répétitions possibles).
@@ -26,7 +27,7 @@ Jeu de réflexion et de décodage inspiré du Mastermind, intégré à l'écosys
 - Clavier : `1`–`9` choisir · `⌫` effacer · `Entrée` valider.
 
 ## Intégration hub
-Le hub `Joxia-Games` ouvre `https://joxiagame.github.io/Codebreaker-Joxia/?player=<pseudo>` ; le pseudo est affiché en jeu.
+Le hub `Joxia-Games` ouvre `https://joxiagame.github.io/Codebreaker-Joxia/?player=<pseudo>` après connexion. Le pseudo est affiché en jeu et le score est envoyé à `games/CODEBREAKER/scores` pour alimenter le classement « TOP JOXIA ».
 
 ## Déploiement
 Public via GitHub Pages sur le dépôt `Codebreaker-Joxia`.

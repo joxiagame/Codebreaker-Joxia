@@ -18,6 +18,8 @@
   let bestScore = 0;
   let muted = false;
   let gameOver = false;
+  let player = 'Invité';
+  let db = null;
 
   // --- Raccourcis DOM ---
   const $ = (id) => document.getElementById(id);
@@ -85,6 +87,39 @@
   }
   function loadMuted() {
     try { muted = localStorage.getItem('codebreaker_muted') === '1'; } catch (e) {}
+  }
+
+  // --- Firebase (classement hub) ---
+  function initFirebase() {
+    try {
+      if (typeof firebase === 'undefined') return;
+      if (!firebase.apps.length) {
+        firebase.initializeApp({
+          apiKey: "AIzaSyCPecKQH6DURfYitjY4bXMeW0URLrcNnsI",
+          authDomain: "joxiahub-2928b.firebaseapp.com",
+          projectId: "joxiahub-2928b",
+          storageBucket: "joxiahub-2928b.firebasestorage.app",
+          messagingSenderId: "303698595695",
+          appId: "1:303698595695:web:5c99c2cb2a9ea88e36a29a",
+          databaseURL: "https://joxiahub-2928b-default-rtdb.europe-west1.firebasedatabase.app"
+        });
+      }
+      db = firebase.database();
+    } catch (e) { db = null; }
+  }
+
+  function saveScore(score) {
+    if (!db || !player || player === 'Invité' || score <= 0) return;
+    const path = 'games/CODEBREAKER/scores';
+    db.ref(path).orderByChild('name').equalTo(player).once('value', (snap) => {
+      let key = null, oldScore = 0;
+      snap.forEach((child) => { key = child.key; oldScore = child.val().score || 0; });
+      if (key && score > oldScore) {
+        db.ref(path + '/' + key).update({ score: score, date: Date.now() });
+      } else if (!key) {
+        db.ref(path).push({ name: player, score: score, date: Date.now() });
+      }
+    }, () => {});
   }
 
   // --- Rendu ---
@@ -239,6 +274,7 @@
     const attempts = maxTries - triesLeft;
     const score = computeScore();
     if (score > bestScore) { bestScore = score; saveBest(score); }
+    saveScore(score);
     bestScoreEl.textContent = 'Meilleur : ' + bestScore;
     triesLeftEl.textContent = 'RÉUSSI !';
     winText.textContent = 'Code cracké en ' + attempts + ' essai' + (attempts > 1 ? 's' : '') + ' · Score ' + score;
@@ -381,12 +417,13 @@
   // --- Joueur (intégration hub ?player=) ---
   function bindPlayer() {
     const urlParams = new URLSearchParams(window.location.search);
-    const player = (urlParams.get('player') || '').trim();
-    if (player) playerTagEl.textContent = 'Joueur : ' + player;
+    player = (urlParams.get('player') || '').trim() || 'Invité';
+    playerTagEl.textContent = 'Joueur : ' + player;
   }
 
   // --- Init ---
   function init() {
+    initFirebase();
     bindPresets();
     bindSliders();
     bindKeyboard();
